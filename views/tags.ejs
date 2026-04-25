@@ -1,0 +1,58 @@
+<%- include('partials/header') %>
+<div class="page-container">
+  <div class="page-header">
+    <h1 class="page-title">Tags</h1>
+  </div>
+
+  <!-- Create Tag Form -->
+  <div class="card form-card">
+    <h2 class="card-title">Create New Tag</h2>
+    <form method="POST" action="/tags" class="tag-form">
+      <div class="form-row">
+        <div class="form-group flex-grow">
+          <label for="tag-name" class="form-label">Tag Name</label>
+          <input type="text" id="tag-name" name="name" class="form-input"
+                 placeholder="e.g. Work, Personal, Urgent" required maxlength="50" />
+        </div>
+        <div class="form-group">
+          <label for="tag-color" class="form-label">Color</label>
+          <input type="color" id="tag-color" name="color" class="form-color" value="#6366f1" />
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Create Tag</button>
+    </form>
+  </div>
+
+  <!-- Tags List -->
+  <% if (tags.length === 0) { %>
+  <div class="empty-state">
+    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+      <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+      <line x1="7" y1="7" x2="7.01" y2="7"></line>
+    </svg>
+    <p>No tags yet. Create your first one!</p>
+  </div>
+  <% } else { %>
+  <div class="tags-grid">
+    <% tags.forEach(tag => { %>
+    <div class="tag-card">
+      <div class="tag-card-left">
+        <span class="tag-color-dot" style="background-color: <%= tag.color || '#6366f1' %>"></span>
+        <div>
+          <div class="tag-name"><%= tag.name %></div>
+          <div class="tag-count"><%= tag.count %> todo<%= tag.count !== 1 ? 's' : '' %></div>
+        </div>
+      </div>
+      <div class="tag-card-right">
+        <a href="/?tag=<%= tag.id %>" class="btn btn-sm btn-outline">View</a>
+        <form method="POST" action="/tags/<%= tag.id %>/delete" style="display:inline"
+              onsubmit="return confirm('Delete tag?')">
+          <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+        </form>
+      </div>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
+</div>
+<%- include('partials/footer') %>
