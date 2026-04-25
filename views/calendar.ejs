@@ -1,0 +1,45 @@
+<%- include('partials/header') %>
+<div class="page-container">
+  <div class="calendar-header">
+    <a href="/calendar?year=<%= prevYear %>&month=<%= prevMonth %>" class="btn-icon btn-outline" aria-label="Previous month">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+    </a>
+    <h1 class="calendar-title"><%= monthName %> <%= year %></h1>
+    <a href="/calendar?year=<%= nextYear %>&month=<%= nextMonth %>" class="btn-icon btn-outline" aria-label="Next month">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
+    </a>
+  </div>
+
+  <div class="calendar-grid">
+    <% ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(day => { %>
+    <div class="calendar-day-header"><%= day %></div>
+    <% }) %>
+
+    <% grid.forEach(week => { %>
+      <% week.forEach(cell => { %>
+      <div class="calendar-cell <%= !cell.isCurrentMonth ? 'other-month' : '' %> <%= cell.isToday ? 'today' : '' %>">
+        <div class="cell-day-num"><%= cell.dayNum %></div>
+        <% if (cell.todos.length > 0) { %>
+        <div class="cell-todos">
+          <% cell.todos.slice(0, 3).forEach(todo => { %>
+          <a href="/?due_date=<%= cell.date.toISOString().split('T')[0] %>"
+             class="cell-todo-item <%= todo.completed ? 'completed' : '' %>"
+             title="<%= todo.title %>">
+            <%= todo.title.substring(0, 20) %><%= todo.title.length > 20 ? '…' : '' %>
+          </a>
+          <% }) %>
+          <% if (cell.todos.length > 3) { %>
+          <span class="cell-todo-more">+<%= cell.todos.length - 3 %> more</span>
+          <% } %>
+        </div>
+        <% } %>
+      </div>
+      <% }) %>
+    <% }) %>
+  </div>
+</div>
+<%- include('partials/footer') %>

@@ -1,0 +1,64 @@
+<%- include('partials/header') %>
+<div class="page-container">
+  <div class="page-header">
+    <a href="/" class="btn-back">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Back
+    </a>
+    <h1 class="page-title"><%= todo ? 'Edit Todo' : 'New Todo' %></h1>
+  </div>
+
+  <div class="card form-card">
+    <form method="POST" action="<%= action %>">
+      <div class="form-group">
+        <label for="title" class="form-label">Title <span class="required">*</span></label>
+        <input type="text" id="title" name="title" class="form-input"
+               value="<%= todo ? todo.title : '' %>"
+               placeholder="What needs to be done?" required maxlength="200" autofocus />
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">Description</label>
+        <textarea id="description" name="description" class="form-textarea"
+                  placeholder="Add details..." rows="3"><%= todo ? todo.description : '' %></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="due_date" class="form-label">Due Date</label>
+        <input type="date" id="due_date" name="due_date" class="form-input"
+               value="<%= todo && todo.due_date ? (todo.due_date.includes('T') ? todo.due_date.split('T')[0] : todo.due_date) : '' %>" />
+      </div>
+
+      <% if (tags.length > 0) { %>
+      <div class="form-group">
+        <label class="form-label">Tags</label>
+        <div class="tag-checkboxes" id="tag-checkboxes">
+          <% tags.forEach(tag => { %>
+          <%
+            const isChecked = todo && todo.tags && (
+              Array.isArray(todo.tags) ? todo.tags.includes(tag.id) : todo.tags === tag.id
+            );
+          %>
+          <label class="tag-checkbox-label <%= isChecked ? 'selected' : '' %>"
+                 style="--tag-color: <%= tag.color || '#6366f1' %>">
+            <input type="checkbox" name="tags" value="<%= tag.id %>"
+                   <%= isChecked ? 'checked' : '' %> class="tag-checkbox-input" />
+            <span class="tag-checkbox-text"><%= tag.name %></span>
+          </label>
+          <% }) %>
+        </div>
+      </div>
+      <% } %>
+
+      <div class="form-actions">
+        <a href="/" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary">
+          <%= todo ? 'Save Changes' : 'Create Todo' %>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+<%- include('partials/footer') %>
