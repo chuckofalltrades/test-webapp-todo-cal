@@ -43,7 +43,7 @@ npm run preview
 
 Read the full walkthrough here:
 
-- **`/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/docs/LEARNING_GUIDE.md`**
+- **`docs/LEARNING_GUIDE.md`**
 
 It explains:
 - How the app is structured

@@ -16,7 +16,7 @@ The app intentionally stays small, but still shows key ideas:
 
 ## 2) Folder/file walkthrough
 
-### `/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/app/pages/index.vue`
+### `app/pages/index.vue`
 Main page that wires everything together.
 
 Concepts shown:
@@ -25,7 +25,7 @@ Concepts shown:
 - Derived stats with `computed`
 - Conditional rendering (`v-if` / `v-else`) to switch between list/calendar
 
-### `/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/app/composables/useTodos.ts`
+### `app/composables/useTodos.ts`
 Reusable state and todo actions.
 
 Concepts shown:
@@ -34,7 +34,7 @@ Concepts shown:
 - Action methods (`addTodo`, `toggleComplete`, `removeTodo`)
 - Persistence (`loadFromStorage`, `saveToStorage`)
 
-### `/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/app/components/TodoComposer.vue`
+### `app/components/TodoComposer.vue`
 Form for creating todos.
 
 Concepts shown:
@@ -43,7 +43,7 @@ Concepts shown:
 - `defineEmits` to send data up to parent
 - Tag parsing from comma-separated input
 
-### `/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/app/components/TodoList.vue`
+### `app/components/TodoList.vue`
 List presentation + filtering.
 
 Concepts shown:
@@ -51,7 +51,7 @@ Concepts shown:
 - Computed filtering by status and tag
 - UI list actions (toggle complete / remove)
 
-### `/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/app/components/TodoCalendar.vue`
+### `app/components/TodoCalendar.vue`
 Calendar-like month grid using JavaScript `Date`.
 
 Concepts shown:
@@ -59,7 +59,7 @@ Concepts shown:
 - Mapping todos by date (`Map<string, TodoItem[]>`)
 - Selecting a day and rendering related todos
 
-### `/tmp/workspace/chuckofalltrades/test-webapp-todo-cal/app/types/todo.ts`
+### `app/types/todo.ts`
 Shared TypeScript interface for todo objects.
 
 Concept shown:
