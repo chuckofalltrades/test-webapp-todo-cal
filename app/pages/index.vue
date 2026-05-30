@@ -41,13 +41,22 @@ onMounted(() => {
     >
       <template #links>
         <div class="flex flex-wrap gap-2">
-          <UBadge color="primary" variant="soft">
+          <UBadge
+            color="primary"
+            variant="soft"
+          >
             Total: {{ stats.total }}
           </UBadge>
-          <UBadge color="warning" variant="soft">
+          <UBadge
+            color="warning"
+            variant="soft"
+          >
             Open: {{ stats.open }}
           </UBadge>
-          <UBadge color="success" variant="soft">
+          <UBadge
+            color="success"
+            variant="soft"
+          >
             Done: {{ stats.completed }}
           </UBadge>
         </div>

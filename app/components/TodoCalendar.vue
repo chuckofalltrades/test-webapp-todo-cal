@@ -171,7 +171,10 @@ const moveMonth = (offset: number) => {
             :key="todo.id"
             class="rounded-md border border-default p-2"
           >
-            <p class="font-medium" :class="todo.completed ? 'line-through text-muted' : ''">
+            <p
+              class="font-medium"
+              :class="todo.completed ? 'line-through text-muted' : ''"
+            >
               {{ todo.title }}
             </p>
             <div class="flex gap-2 mt-1">

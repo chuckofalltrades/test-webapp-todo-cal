@@ -51,7 +51,10 @@ const submit = () => {
     </template>
 
     <div class="space-y-4">
-      <UFormField label="Task title" required>
+      <UFormField
+        label="Task title"
+        required
+      >
         <UInput
           v-model="title"
           placeholder="Example: Build Nuxt practice project"
