@@ -1,76 +1,102 @@
+<script setup lang="ts">
+/**
+ * Main demo page.
+ * This file connects composable state + UI components to show:
+ * - Vue reactivity (ref/computed)
+ * - Nuxt composables (useState through useTodos)
+ * - Nuxt UI components for polished UI quickly
+ */
+const {
+  todos,
+  loadFromStorage,
+  addTodo,
+  toggleComplete,
+  removeTodo
+} = useTodos()
+
+const activeView = ref<'list' | 'calendar'>('list')
+
+const stats = computed(() => {
+  const total = todos.value.length
+  const completed = todos.value.filter(todo => todo.completed).length
+  const open = total - completed
+
+  return {
+    total,
+    completed,
+    open
+  }
+})
+
+onMounted(() => {
+  loadFromStorage()
+})
+</script>
+
 <template>
-  <div>
+  <div class="space-y-6">
     <UPageHero
-      title="Nuxt Starter Template"
-      description="A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours."
-      :links="[{
-        label: 'Get started',
-        to: 'https://ui.nuxt.com/docs/getting-started/installation/nuxt',
-        target: '_blank',
-        trailingIcon: 'i-lucide-arrow-right',
-        size: 'xl'
-      }, {
-        label: 'Use this template',
-        to: 'https://github.com/nuxt-ui-templates/starter',
-        target: '_blank',
-        icon: 'i-simple-icons-github',
-        size: 'xl',
-        color: 'neutral',
-        variant: 'subtle'
-      }]"
+      title="Nuxt + Vue + Nuxt UI Learning Todo"
+      description="A beginner-friendly demo showing component-based development, reactive state, and a polished UI with minimal code."
+    >
+      <template #links>
+        <div class="flex flex-wrap gap-2">
+          <UBadge color="primary" variant="soft">
+            Total: {{ stats.total }}
+          </UBadge>
+          <UBadge color="warning" variant="soft">
+            Open: {{ stats.open }}
+          </UBadge>
+          <UBadge color="success" variant="soft">
+            Done: {{ stats.completed }}
+          </UBadge>
+        </div>
+      </template>
+    </UPageHero>
+
+    <TodoComposer @submit="addTodo($event.title, $event.dueDate, $event.tags)" />
+
+    <UCard>
+      <template #header>
+        <div class="flex items-center justify-between">
+          <h2 class="text-lg font-semibold">
+            Choose a view
+          </h2>
+
+          <UButtonGroup>
+            <UButton
+              :variant="activeView === 'list' ? 'solid' : 'soft'"
+              icon="i-lucide-list"
+              @click="activeView = 'list'"
+            >
+              List
+            </UButton>
+            <UButton
+              :variant="activeView === 'calendar' ? 'solid' : 'soft'"
+              icon="i-lucide-calendar"
+              @click="activeView = 'calendar'"
+            >
+              Calendar
+            </UButton>
+          </UButtonGroup>
+        </div>
+      </template>
+
+      <p class="text-sm text-muted">
+        This toggle demonstrates conditional rendering in Vue with a shared reactive state.
+      </p>
+    </UCard>
+
+    <TodoList
+      v-if="activeView === 'list'"
+      :todos="todos"
+      @toggle="toggleComplete"
+      @remove="removeTodo"
     />
 
-    <UPageSection
-      id="features"
-      title="Everything you need to build modern Nuxt apps"
-      description="Start with a solid foundation. This template includes all the essentials for building production-ready applications with Nuxt UI's powerful component system."
-      :features="[{
-        icon: 'i-lucide-rocket',
-        title: 'Production-ready from day one',
-        description: 'Pre-configured with TypeScript, ESLint, Tailwind CSS, and all the best practices. Focus on building features, not setting up tooling.'
-      }, {
-        icon: 'i-lucide-palette',
-        title: 'Beautiful by default',
-        description: 'Leveraging Nuxt UI\'s design system with automatic dark mode, consistent spacing, and polished components that look great out of the box.'
-      }, {
-        icon: 'i-lucide-zap',
-        title: 'Lightning fast',
-        description: 'Optimized for performance with SSR/SSG support, automatic code splitting, and edge-ready deployment. Your users will love the speed.'
-      }, {
-        icon: 'i-lucide-blocks',
-        title: '100+ components included',
-        description: 'Access Nuxt UI\'s comprehensive component library. From forms to navigation, everything is accessible, responsive, and customizable.'
-      }, {
-        icon: 'i-lucide-code-2',
-        title: 'Developer experience first',
-        description: 'Auto-imports, hot module replacement, and TypeScript support. Write less boilerplate and ship more features.'
-      }, {
-        icon: 'i-lucide-shield-check',
-        title: 'Built for scale',
-        description: 'Enterprise-ready architecture with proper error handling, SEO optimization, and security best practices built-in.'
-      }]"
+    <TodoCalendar
+      v-else
+      :todos="todos"
     />
-
-    <UPageSection>
-      <UPageCTA
-        title="Ready to build your next Nuxt app?"
-        description="Join thousands of developers building with Nuxt and Nuxt UI. Get this template and start shipping today."
-        variant="subtle"
-        :links="[{
-          label: 'Start building',
-          to: 'https://ui.nuxt.com/docs/getting-started/installation/nuxt',
-          target: '_blank',
-          trailingIcon: 'i-lucide-arrow-right',
-          color: 'neutral'
-        }, {
-          label: 'View on GitHub',
-          to: 'https://github.com/nuxt-ui-templates/starter',
-          target: '_blank',
-          icon: 'i-simple-icons-github',
-          color: 'neutral',
-          variant: 'outline'
-        }]"
-      />
-    </UPageSection>
   </div>
 </template>
